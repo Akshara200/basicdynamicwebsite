@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF_8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewpoint" content="width=device=width,initial-scale=1.0">
+        <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <title>Register</title>
+
+        
+    </head>
+    
+    <body>
+        <nav class="nav nav_bar">
+            <div class="logo">
+                <a href="index.html"><img src="download.jpeg" width="150">
+            </div>
+            <div class="nav_side">
+                <a href="login.html">Login</a>
+            </div>
+        </nav>
+        <div class = "html_register">
+            <h2>Register</h2>
+            <div class="register_form"></div>
+                <form onsubmit="return validation()" name="submit-to-google-sheet">
+                    <input type="text" name="UserName" placeholder="Full Name"required><br>
+                    <span id="errorname" style = "color:red;"></span>
+                    <input type="number" name="Number" placeholder="Contact Number"required><br>
+                    <span id="errornumber" style = "color:red;"></span>
+                    <input type="text" name="Branch" placeholder="Branch" required><br>
+                    <input type="number" name="Year" placeholder="Year" required><br>
+                    <input type = "text" name = "College Name" placeholder="College Name" required><br>
+                    <input type = "password" name = "Password" placeholder="Password" required><br>
+                    <span id = "errorpassword" style = "color:red;"></span>
+                            
+                    <button class="submit" type = "Submit">Register</button><br>
+                    <span id="success"></span>
+                    <button class ="reset" type = "reset">Refresh</button>
+                        
+                    <br>
+                    <span class="span1" >Already Registered? 
+                        <a href="login.html"> Login </a></span>
+                </form>
+            </div>           
+        </div>
+        <script type = "text/javascript">
+            function validation(){
+                var UserName = document.getElementById('UserName').value;
+                var email = document.getElementById('Email').value;
+                var Number = document.getElementById('Number').value;
+                var Password = document.getElementById('Password').value;
+                var Usercheck = /^[A-Za-z]{3,30}$/;
+                var Emailcheck = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+                var Numbercheck = /^[6789][0-9]{9}$/
+                var Passwordcheck = /^(?=.*[-\#\$\.\%\&\@\!\+\=\<\>\*])(?=.*[a-zA-Z])(?=.*\d).{8,12}$/;
+                
+
+                if(Usercheck.test(UserName)){
+                    document.getElementById('errorname').innerHTML = "";
+                }
+                else{
+                    document.getElementById('errorname').innerHTML = "Invalid Name";
+                    return false;
+                }
+
+                if(Emailcheck.test(Email)){
+                    document.getElementById('erroremail').innerHTML = "";
+                }
+                else{
+                    document.getElementById('erroremail').innerHTML = "Invalid Email";
+                    return false;
+                }
+
+                if(Numbercheck.test(Number)){
+                    document.getElementById('errornumber').innerHTML = "";
+                }
+                else{
+                    document.getElementById('errornumber').innerHTML = "Invalid Number";
+                    return false;
+                }
+
+            }
+        </script>
+
+        <script>
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbwP-PDU9wKsuEL15eIWF9VDVk-RR_tQMyh2md6Q-gEHs-ejp35J0YDjmnJ2gDxIfmVK/exec'
+            const form = document.forms['submit-to-google-sheet']
+            const success = document.getElementById('success');
+            form.addEventListener('submit', e => {
+            e.preventDefault()
+            fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+                .then(response =>{
+                    success.innerHTML="Data Successfully Submitted";
+
+                    setTimeout(function()
+                    {
+                        success.innerHTML="";
+
+                    },3000)
+                    form.reset();
+                })
+                .catch(error => console.error('Error!', error.message))
+            })
+        </script>
+    </body>
+</html>
